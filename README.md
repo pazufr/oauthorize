@@ -1,4 +1,4 @@
-Oauthorize Facebook Twitter is a MOD for Phpbb 3.0.x forums 
+Oauthorize Facebook Twitter is a MOD for phpBB 3.0.x forums 
 
 It enables the automatic link between a forum account and Facebook and/or Twitter accounts, then the authentication and the registration through these social networks.
 
@@ -23,7 +23,7 @@ MOD code tested under
 - MySQL 5.5.24
 - PostgreSQL 9.2
 - PHP 5.3.12
-- Phpbb 3.0.11 
+- phpBB 3.0.11 
 
 Automatic installation tested with Automod 1.0.2 under MySQL.
 
