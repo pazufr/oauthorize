@@ -5,7 +5,7 @@ It enables the automatic link between a forum account and Facebook and/or Twitte
 Usage Sample
 ------------
 
-[Animint forum](https://www.animint.com/outils/forum/)
+[Animint forum](http://www.animint.com/outils/forum/)
 
 Installation
 ------------  
