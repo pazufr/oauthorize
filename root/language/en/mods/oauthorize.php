@@ -48,7 +48,7 @@ $lang = array_merge($lang, array(
   'OAUTH_TW_REGISTER' => 'Register with Twitter',
   'OAUTH_TW_REGISTRATION' => 'Registration with Twitter',
   'OAUTH_MSG_CUT_LINK' => 'Your <strong><a href="%1$s">%2$s</a></strong> %3$s account is not linked with this forum account anymore.',
-  'OAUTH_MSG_MAPPED_LINK' => 'Your <strong><a href="%1$s">%2$s</a></strong> %3$s account is now mapped to this <strong><a href="./memberlist.php?mode=viewprofile&u=%4$s">%5$s</a></strong> forum account.',
+  'OAUTH_MSG_MAPPED_LINK' => 'Your <strong><a href="%1$s">%2$s</a></strong> %3$s account is now mapped to this <strong><a href="./memberlist.php?mode=viewprofile&amp;u=%4$s">%5$s</a></strong> forum account.',
   'OAUTH_MSG_NO_LINK' => 'No forum account is associated with this <strong><a href="%1$s">%2$s</a></strong> %3$s account. You may <a href="%4$s" >register a new account</a> or login as you normally would.',
   'OAUTH_MSG_LOGGED' => 'You were logged in as <strong>%1$s</strong> through your <strong><a href="%2$s">%3$s</a></strong> %4$s account.',
   'OAUTH_MSG_ALREADY_MAPPED' => 'Duplication: An account is already mapped with this ID.',

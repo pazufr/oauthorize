@@ -37,23 +37,23 @@ class OauthLogin
           	
 		  if (empty($user->profile_fields['pf_oauth_facebook_id']))
       {
-        $u_oauth_facebook_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=facebook&action=authorize', true, $user->session_id);
+        $u_oauth_facebook_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=facebook&amp;action=authorize', true, $user->session_id);
         $s_oauth_facebook = false;
       }
       else
 		  {
-        $u_oauth_facebook_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=facebook&action=deauthorize', true, $user->session_id);
+        $u_oauth_facebook_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=facebook&amp;action=deauthorize', true, $user->session_id);
         $s_oauth_facebook = true;
       }
 
       if (empty($user->profile_fields['pf_oauth_twitter_id']))
       {
-        $u_oauth_twitter_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=twitter&action=authorize', true, $user->session_id);
+        $u_oauth_twitter_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=twitter&amp;action=authorize', true, $user->session_id);
         $s_oauth_twitter = false;
       }
       else
 		  {
-        $u_oauth_twitter_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=twitter&action=deauthorize', true, $user->session_id);
+        $u_oauth_twitter_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=twitter&amp;action=deauthorize', true, $user->session_id);
         $s_oauth_twitter = true;
       }
     }
