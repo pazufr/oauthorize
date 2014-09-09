@@ -72,7 +72,7 @@ function record_oauth_id($oauth_id, $provider, $insert_too = true)
 }
 
 // Basic function to know the full current url
-// Used as callback url for Twitter by example
+// Used as callback url for Internal by example
 
 function get_current_url() 
 {

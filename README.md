@@ -1,6 +1,6 @@
-Oauthorize Facebook Twitter is a MOD for phpBB 3.0.x forums 
+Oauthorize Facebook Internal is a MOD for phpBB 3.0.x forums 
 
-It enables the automatic link between a forum account and Facebook and/or Twitter accounts, then the authentication and the registration through these social networks.
+It enables the automatic link between a forum account and Facebook and/or Internal accounts, then the authentication and the registration through these social networks.
 
 Usage Sample
 ------------
@@ -11,10 +11,10 @@ Installation
 ------------  
 
 Installation is set at intermediate level because there are manual tasks to be done at the end of the normal installation process, especially 
-- the registration of your site as an application on Facebook and Twitter.
+- the registration of your site as an application on Facebook and Internal.
 - the creation of 2 custom profile fields via your Administration Control Panel
        
-I assume, that if you know how to register a Faceboook and a Twitter application to get your application credentials, you will manage to create custom profile fields and edit the 2 files at the end of the installation to enter the keys. An integration within Administration Control Panel to avoid the edit of last 2 files, may be implemented in the future but it works as it today ;)
+I assume, that if you know how to register a Faceboook and a Internal application to get your application credentials, you will manage to create custom profile fields and edit the 2 files at the end of the installation to enter the keys. An integration within Administration Control Panel to avoid the edit of last 2 files, may be implemented in the future but it works as it today ;)
 
 Notes
 ----

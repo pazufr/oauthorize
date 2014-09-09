@@ -5,15 +5,15 @@
 <mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
 	<header>
 		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
-		<title lang="en"><![CDATA[Oauthorize Facebook Twitter MOD]]></title>
-		<description lang="en"><![CDATA[Add links between user accounts and Twitter and Facebook accounts, enabling
-- an automatic authentication with Facebook or/and Twitter
+		<title lang="en"><![CDATA[Oauthorize Internal MOD]]></title>
+		<description lang="en"><![CDATA[Add links between user accounts and Internal accounts, enabling
+- an automatic authentication with  Internal
 - registration]]></description>
 		<author-notes lang="en"><![CDATA[
     Installation is set at intermediate level because there are manual tasks to be done at the end of the normal installation process, especially 
-    - the registration of your site as an application on Facebook and Twitter.
+    - the registration of your site as an application on Internal.
     - the creation of 2 custom profile fields via your Administration Control Panel   
-    I assume, that if you know how to register a Faceboook and a Twitter application to get your application credentials, you will manage to create custom profile fields and edit the 2 files at the end of the installation to enter the keys. An integration within Administration Control Panel to avoid the edit of last 2 files, may be implemented in the future but it works as it today ;)
+    I assume, that if you know how to register a Faceboook and a Internal application to get your application credentials, you will manage to create custom profile fields and edit the 2 files at the end of the installation to enter the keys. An integration within Administration Control Panel to avoid the edit of last 2 files, may be implemented in the future but it works as it today ;)
     You can get the official code for this mod from https://github.com/pazufr/oauthorize     
     This mod is derived from OAuthorize phpBB still in DEV status by Paolo Umali.       
     ]]></author-notes>
@@ -46,171 +46,18 @@ ALTER TABLE phpbb_sessions ALTER COLUMN session_oauth SET DEFAULT '';]]></sql>
 			<file from="root/oauthorize/facebook/base_facebook.php" to="oauthorize/facebook/base_facebook.php"/>
 			<file from="root/oauthorize/facebook/facebook.php" to="oauthorize/facebook/facebook.php"/>
 			<file from="root/oauthorize/facebook/fb_ca_chain_bundle.crt" to="oauthorize/facebook/fb_ca_chain_bundle.crt"/>
-      <file from="root/oauthorize/twitter/index.html" to="oauthorize/twitter/index.html"/>
-			<file from="root/oauthorize/twitter/twitteroauth.php" to="oauthorize/twitter/twitteroauth.php"/>
-			<file from="root/oauthorize/twitter/OAuth.php" to="oauthorize/twitter/OAuth.php"/>
-			<file from="root/oauthorize/twitter/cacert.pem" to="oauthorize//twitter/cacert.pem"/>
+      <file from="root/oauthorize/internal/index.html" to="oauthorize/internal/index.html"/>
+			<file from="root/oauthorize/internal/internaloauth.php" to="oauthorize/internal/internaloauth.php"/>
+			<file from="root/oauthorize/internal/OAuth.php" to="oauthorize/internal/OAuth.php"/>
+			<file from="root/oauthorize/internal/cacert.pem" to="oauthorize//internal/cacert.pem"/>
 			<file from="root/styles/prosilver/template/oauthorize_links.html" to="styles/prosilver/template/oauthorize_links.html"/>      
 			<file from="root/styles/prosilver/theme/oauthorize.css" to="styles/prosilver/theme/oauthorize.css"/>
       <file from="root/styles/prosilver/theme/images/oauth_icon.png" to="styles/prosilver/theme/images/oauth_icon.png"/>			     
 		</copy>
-    <open src="includes/ucp/ucp_register.php">
-			<edit>
-				<find><![CDATA[		include($phpbb_root_path . 'includes/functions_profile_fields.' . $phpEx);]]></find>
-				<action type="after-add"><![CDATA[
-    // MOD oauthorize start
-    $this->ucp_register_before_handler();
-    // MOD oauthorize end
-]]></action>
-			</edit>
-      <edit>
-        <find><![CDATA[			$this->tpl_name = 'ucp_agreement';]]></find>
-        <action type="after-add"><![CDATA[
-      // MOD oauthorize start
-      $this->ucp_register_after_handler();
-      // MOD oauthorize end        
-]]></action>      
-      </edit>
-      <edit>
-        <find><![CDATA[				$message = $message . '<br /><br />' . sprintf($user->lang['RETURN_INDEX'], '<a href="' . append_sid("{$phpbb_root_path}index.$phpEx") . '">', '</a>');]]></find>
-        <action type="after-add"><![CDATA[
-      // MOD oauthorize start
-      $this->ucp_register_after_handler();
-      // MOD oauthorize end        
-]]></action>
-      </edit>
-      <edit>
-        <find><![CDATA[		$this->page_title = 'UCP_REGISTRATION';]]></find>
-        <action type="after-add"><![CDATA[
-    // MOD oauthorize start
-    $this->ucp_register_after_handler();
-    // MOD oauthorize end	
-]]></action>
-      </edit>
-      <edit>
-        <find><![CDATA[ }]]></find>
-        <action type="after-add"><![CDATA[
-  // MOD oauthorize start
-  
-  // Add custom hooks used in includes/hooks/hook_oauthorize.php
-  
-  function ucp_register_after_handler()
-  {
-    global $phpbb_hook;    
-    if ($phpbb_hook->call_hook(array(__CLASS__, __FUNCTION__)))
-		{
-			if ($phpbb_hook->hook_return(array(__CLASS__, __FUNCTION__)))
-			{
-        return $phpbb_hook->hook_return_result(array(__CLASS__, __FUNCTION__));
-			}
-		}  
-  }
-  
-  function ucp_register_before_handler()
-  {
-    global $phpbb_hook;    
-    if ($phpbb_hook->call_hook(array(__CLASS__, __FUNCTION__)))
-		{
-			if ($phpbb_hook->hook_return(array(__CLASS__, __FUNCTION__)))
-			{
-        return $phpbb_hook->hook_return_result(array(__CLASS__, __FUNCTION__));
-			}
-		}  
-  }
-  
-  // MOD oauthorize end
-]]></action>
-      </edit>
-    </open>
     <open src="styles/prosilver/template/overall_header.html">
-      <edit>
-        <find><![CDATA[<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">]]></find>
-        	<action type="after-add"><![CDATA[
-<div id="fb-root"></div>
-<script type="text/javascript">
-  // Additional JS functions here
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : 'xxxxxxxxxxxxxxxx', // App ID
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : false  // parse XFBML
-    });
-
-    // Additional init code here
-
-  };
-
-  // Load the SDK Asynchronously
-  (function(d){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document));
-</script>
-]]></action>
-      </edit>
       <edit>
         <find><![CDATA[				<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>]]></find>
 				<action type="before-add"><![CDATA[<!-- INCLUDE oauthorize_links.html -->]]></action>
-      </edit>
-    </open>
-    <open src="styles/prosilver/template/ucp_register.html">
-			<edit>
-				<find><![CDATA[<!-- INCLUDE overall_footer.html -->]]></find>
-				<action type="before-add"><![CDATA[<!-- // MOD oauthorize start -->
-<script type="text/javascript">
-<!-- IF S_OAUTH_REGISTRATION -->
-document.getElementById('username').value="<!-- IF L_OAUTH_USERNAME -->{L_OAUTH_USERNAME}<!-- ENDIF -->";
-document.getElementById('{L_OAUTH_ID_FORM_INPUT_KEY}').value="<!-- IF L_OAUTH_ID -->{L_OAUTH_ID}<!-- ENDIF -->";
-<!-- ENDIF -->
-var providers = ['facebook','twitter'];
-for (var i=0,len=providers.length; i<len; i++) { 
-	document.getElementById('pf_oauth_'+providers[i]+'_id').parentNode.parentNode.style.display = "none";
-}
-</script>
-<!-- // MOD oauthorize end -->
-]]></action>
-			</edit>
-		</open>
-    <open src="styles/prosilver/template/ucp_agreement.html">
-      <edit>
-        <find><![CDATA[<h2>{SITENAME} - {L_REGISTRATION}</h2>
-			<p><!-- IF S_SHOW_COPPA -->{L_COPPA_BIRTHDAY}<!-- ELSE -->{L_TERMS_OF_USE}<!-- ENDIF --></p>]]></find>
-        <action type="replace-with"><![CDATA[
-      <!-- // MOD oauthorize start -->
-      <h2>{SITENAME}  
-      <!-- IF S_OAUTH_REGISTRATION -->
-        <!-- IF L_OAUTH_PROVIDER eq 'facebook' -->
-        <span class="oauth_button oauth_fb_add">{L_OAUTH_FB_REGISTRATION}</span>
-        <!-- ELSEIF L_OAUTH_PROVIDER eq 'twitter' -->
-        <span class="oauth_button oauth_tw_add">{L_OAUTH_TW_REGISTRATION}</span>
-        <!-- ENDIF -->
-      <!-- ELSE -->
-      - {L_REGISTRATION} 
-      <!-- ENDIF --></h2>
-      <!-- // MOD oauthorize end -->
-			<p><!-- IF S_SHOW_COPPA -->{L_COPPA_BIRTHDAY}<!-- ELSE -->{L_TERMS_OF_USE}<!-- ENDIF --></p>]]></action>
-      </edit>
-      <edit>
-        <find><![CDATA[<!-- INCLUDE overall_footer.html -->]]></find>
-        <action type="before-add"><![CDATA[<!-- // MOD oauthorize start -->
-<!-- IF not S_OAUTH_REGISTRATION -->
-  <div class="panel">
-    <hr class="dashed" />
-		<p>{L_OAUTH_MSG_AGREEMENT}</p>
-    <p>
-    <a class="oauth_button oauth_fb_add" href="{U_OAUTH_FACEBOOK_REGISTER}">{L_OAUTH_FB_REGISTER}</a>
-    <a class="oauth_button oauth_tw_add" href="{U_OAUTH_TWITTER_REGISTER}">{L_OAUTH_TW_REGISTER}</a>
-    </p>
-    <p>&nbsp;</p>
-	</div>
-<!-- ENDIF -->
-<!-- // MOD oauthorize end -->
-
-]]></action>
       </edit>
     </open>
     <open src="styles/prosilver/theme/stylesheet.css">
@@ -223,25 +70,16 @@ for (var i=0,len=providers.length; i<len; i++) {
     
 The following final steps are _MANDATORY_ to enable this MOD on your forum
 
-1. Create a Facebook application and note your application ID and secret
+2. Create a Internal application and note your consumer key and secret
 
-Complete at least the domain and the callback url
-
-See https://developers.facebook.com/ for instructions
-
-2. Create a Twitter application and note your consumer key and secret
-
-See https://dev.twitter.com/ for instructions
+See https://dev.internal.com/ for instructions
 
 3. Edit manualy the file 'oauthorize.php'
 
-Put your own Twitter and Facebook keys
+Put your own Internal and Facebook keys
 
-Replace 'xxxxxxxxxx' with your Facebook application ID
-Replace 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy' with your Facebook application secret key
-
-Replace 'wwwwwwwwww' with your Twitter application key
-Replace 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz' with your Twitter application secret key
+Replace 'wwwwwwwwww' with your Internal application key
+Replace 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz' with your Internal application secret key
 
 $providers = array(
 
@@ -249,31 +87,18 @@ $providers = array(
 		'id'     => 'xxxxxxxxxx',
 		'secret' => 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
 	),
-	'twitter' => array(
+	'internal' => array(
 		'key'    => 'wwwwwwwwww',
 		'secret' => 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',		
 	),
 );
 
-4. Edit manualy the file 'style/prosilver/overall_header.html'
-
-Replace 'xxxxxxxxxxxxxxxx' with your own Facebook Application ID 
-
-// Additional JS functions here
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : 'xxxxxxxxxxxxxxxx', // App ID
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : false  // parse XFBML
-    });
-
-5. Custom profile fields creation  for Facebook
+6.  Custom profile fields creation  for Internal
 
 Go to the Administration Control Panel
 Choose 'Users and Groups' tabs
 Click on 'Custom profile fields' in the menu on the left
-Create a new field 'oauth_facebook_id' in 'Single text field'
+Create a new field 'oauth_internal_id' in 'Single text field'
 Check the 'display on registration screen' option
 Default value: 0
 Click on Profil type specific options button
@@ -281,10 +106,6 @@ Lenght of input box: 30
 Minimum number of characters: 0
 Field validation: Only number
 Click on "Save"
-
-6.  Custom profile fields creation  for Twitter
-
-Do the same as for Facebook, with a new field 'oauth_twitter_id'
 
 7. Purge cache via the Administration Control Panel
 

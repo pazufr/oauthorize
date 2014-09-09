@@ -6,22 +6,12 @@ border-radius: 5px;
 color: white !important;
 }
 
-.oauth_fb_del {
-background-position: left -32px;
-background-color: #3B5998;
-}
-
-.oauth_fb_add {
-background-position: 2px 4px;
-background-color: #3B5998;
-}
-
-.oauth_tw_del {
+.oauth_int_del {
 background-position: 2px -80px;
 background-color: #00aced;
 }
 
-.oauth_tw_add {
+.oauth_int_add {
 background-position: 2px -59px;
 background-color: #00aced;
 }
