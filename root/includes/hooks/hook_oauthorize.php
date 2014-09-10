@@ -35,7 +35,7 @@ class OauthLogin
       // This loads the cutom fields in $user object but does not return them
       $user->get_profile_fields($user->data['user_id']);
 
-      if (empty($user->profile_fields['pf_oauth_internal_id']))
+      if (empty($user->profile_fields['pf_internal_id']))
       {
         $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;action=authorize', true, $user->session_id);
         $s_oauth_internal = false;
@@ -122,7 +122,7 @@ class OauthLogin
 // 				      'L_OAUTH_PROVIDER'          => $reg_provider,				
 // 				      'L_OAUTH_ID'                => $session_oauth[$reg_provider]['id'],				
 // 				      'L_OAUTH_USERNAME'          => $session_oauth[$reg_provider]['username'],
-// 				      'L_OAUTH_ID_FORM_INPUT_KEY' => 'pf_oauth_'. $reg_provider .'_id',
+// 				      'L_OAUTH_ID_FORM_INPUT_KEY' => 'pf_'. $reg_provider .'_id',
 //               'S_UCP_ACTION'		=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=register' . $add_reg_type),
 // 			      ));
 //           }

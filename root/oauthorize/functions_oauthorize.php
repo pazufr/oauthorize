@@ -46,7 +46,7 @@ function record_oauth_id($oauth_id, $provider, $insert_too = true)
 {
   global $db, $user;
   
-  $oauth_column = 'pf_oauth_'.$provider.'_id';
+  $oauth_column = 'pf_'.$provider.'_id';
   $row = array();  
   
   if ($insert_too)
