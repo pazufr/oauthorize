@@ -4,12 +4,12 @@
 */
 if (!defined('IN_PHPBB'))
 {
-	exit;
+  exit;
 }
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+  $lang = array();
 }
 
 // DEVELOPERS PLEASE NOTE
@@ -25,12 +25,12 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
-  'OAUTH_INT_CONNECT' => 'Login with OAuth',
-  'OAUTH_MSG_NO_LINK' => 'No forum account is associated with this <strong><a href="%1$s">%2$s</a></strong> %3$s account. Contact admins.',
-  'OAUTH_MSG_LOGGED' => 'You were logged in as <strong>%1$s</strong> through your <strong><a href="%2$s">%3$s</a></strong> %4$s account.',
-  'OAUTH_MSG_ISSUE' => 'An issue has happened. Please retry.',
-  'OAUTH_UNKOWN_PROVIDER' => 'Unknown provider',
-  'OAUTH_UNKOWN_ACTION' => 'Unknown action', 
+  'OAUTH_INT_CONNECT' => 'Zaloguj z OAuth',
+  'OAUTH_MSG_NO_LINK' => 'Żadne konto na forum nie zostało powiązane z <strong><a href="%1$s">%2$s</a></strong> %3$s. Poczekaj na synchronizację, ewentualnie skontaktuj się z adminami.',
+  'OAUTH_MSG_LOGGED' => 'Zostałeś zalogowany jako <strong>%1$s</strong>.',
+  'OAUTH_MSG_ISSUE' => 'Wystąpił problem, spróbuj ponownie później',
+  'OAUTH_UNKOWN_PROVIDER' => 'Nieznany dostawca',
+  'OAUTH_UNKOWN_ACTION' => 'Nieznana akcja', 
 ));
 
 ?>

@@ -38,8 +38,8 @@ include($phpbb_root_path . 'oauthorize/functions_oauthorize.' . $phpEx);
 
 // Setup the credentials for the requests
 $credentials = new Credentials(
-  'key',
-  'secret'
+  $internal_oauth_id,
+  $internal_oauth_secret,
   $currentUri->getAbsoluteUri()
   );
 
@@ -84,7 +84,7 @@ switch ($provider)
     $internalService->requestAccessToken($_GET['code']);
 
         // Send a request with it
-    $result = json_decode($internalService->request('https://accounts.iiet.pl/appapi/students/me'), true);
+    $result = json_decode($internalService->request('https://accounts.iiet.pl/appapi/v1/students/me'), true);
     $oauth_profile = array(
       'id' => $result['user_id'],
       );
