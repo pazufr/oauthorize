@@ -120,17 +120,16 @@ switch ($action) {
 
       $message = sprintf($user->lang['OAUTH_MSG_LOGGED'], $user->data['username'], $oauth_profile['link'], $oauth_profile['name'], ucfirst($provider));
 
-      meta_refresh(5, append_sid("{$phpbb_root_path}index.$phpEx"));
+      if (isset($_COOKIE['redirect_to']) && !empty($_COOKIE['redirect_to']))  {
+        meta_refresh(2, append_sid($phpbb_root_path . $_COOKIE['redirect_to']));
+        setcookie('redirect_to', '', time()-3600, '/');
+      } else {
+        meta_refresh(2, append_sid("{$phpbb_root_path}index.$phpEx"));
+      }
 
     } else {
       $message = sprintf($user->lang['OAUTH_MSG_NO_LINK'], $oauth_profile['link'], $oauth_profile['name'], $provider, append_sid($phpbb_root_path . 'oauthorize.php?provider=' . $provider . '&amp;action=register'));
-
-      if (isset($_COOKIE['redirect_to']) && !empty($_COOKIE['redirect_to']))  {
-        login_box($_COOKIE['redirect_to'],$message);
-        setcookie('redirect_to', '', time()-3600, '/');
-      } else {
-        login_box(request_var('redirect', $phpbb_root_path . 'oauthorize.php?provider=' . $provider . '&amp;action=authorize'), $message);
-      }
+      login_box(request_var('redirect', $phpbb_root_path . 'oauthorize.php?provider=' . $provider . '&amp;action=authorize'), $message);
     }
 
     trigger_error($message);
