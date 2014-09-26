@@ -1,13 +1,13 @@
 <?php
 error_reporting(E_ALL);
 /**
-*
-* @package MOD oauthorize
-* @version $Id
-* @copyright (c) 2007 phpBB Group
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ *
+ * @package MOD oauthorize
+ * @version $Id
+ * @copyright (c) 2007 phpBB Group
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ */
 
 // load PHPOauthLIB
 use OAuth\OAuth2\Service\Google;
@@ -41,7 +41,7 @@ $credentials = new Credentials(
   $internal_oauth_id,
   $internal_oauth_secret,
   $currentUri->getAbsoluteUri()
-  );
+);
 
 // Nothing needed to be modified after this point
 
@@ -50,26 +50,22 @@ $user->session_begin();
 $auth->acl($user->data);
 $user->setup();
 
-$provider = request_var('provider','internal'); // 
-$action = request_var('action','login'); //lets default to login
+$provider = request_var('provider', 'internal'); //
+$action = request_var('action', 'login'); //lets default to login
 $user->add_lang('mods/oauthorize');
 
-if (!empty($user->data['session_oauth']))
-{
+if (!empty($user->data['session_oauth'])) {
   $session_oauth = json_decode($user->data['session_oauth'], true);
-}
-else
-// initialize the session_oauth if it does not exist
+} else // initialize the session_oauth if it does not exist
 {
-  $session_oauth = array (
-    'internal' => array(),  
-    );
+  $session_oauth = array(
+    'internal' => array(),
+  );
 }
 
 // The first part is to record / connect to provider and get user login & token
 
-switch ($provider) 
-{
+switch ($provider) {
   // Internal authentication is several steps
   // Get temporary token using Internal application credentials
   // Then reload the page catching an oauth_verifier parameter from Internal
@@ -77,70 +73,72 @@ switch ($provider)
   // Then reload the page 
 
   case 'internal':
-  $internalService = $serviceFactory->createService('internal', $credentials, $storage, array());
+    $internalService = $serviceFactory->createService('internal', $credentials, $storage, array());
 
-  if (!empty($_GET['code'])) {
-        // This was a callback request from google, get the token
-    $internalService->requestAccessToken($_GET['code']);
+    if (!empty($_GET['code'])) {
+      // This was a callback request from google, get the token
+      $internalService->requestAccessToken($_GET['code']);
 
-        // Send a request with it
-    $result = json_decode($internalService->request('https://accounts.iiet.pl/appapi/v1/students/me'), true);
-    $oauth_profile = array(
-      'id' => $result['user_id'],
+      // Send a request with it
+      $result = json_decode($internalService->request('https://accounts.iiet.pl/appapi/v1/students/me'), true);
+      $oauth_profile = array(
+        'id' => $result['user_id'],
       );
-  } else {
-    $url = $internalService->getAuthorizationUri();
-    header('Location: ' . $url);
-  } 
+    } else {
+      setcookie('redirect_to', $_SERVER['HTTP_REFERER'], time()+3600, '/');
+      $url = $internalService->getAuthorizationUri();
+      header('Location: ' . $url);
+    }
 
-  break;
+    break;
 
   default:
-  $message = $user->lang['OAUTH_UNKOWN_PROVIDER'];
-  meta_refresh(3, $phpbb_root_path);    
-  trigger_error($message);
+    $message = $user->lang['OAUTH_UNKOWN_PROVIDER'];
+    meta_refresh(3, $phpbb_root_path);
+    trigger_error($message);
 
-  break;
+    break;
 
-} 
+}
 
-$oauth_column = 'pf_'.$provider.'_id';
+$oauth_column = 'pf_' . $provider . '_id';
 
 switch ($action) {
 
-  case 'login': 
+  case 'login':
 
     $config['auth_method'] = 'oauth'; // attempt oauth
 
     $auth->login($oauth_profile['id'], $provider);
 
-    if ($user->data['is_registered']) 
-    {
+    if ($user->data['is_registered']) {
       //indicate that user was logged in by OAuth by registering id in session
       $session_oauth[$provider]['id'] = $oauth_profile['id'];
       $session_oauth[$provider]['username'] = $oauth_profile['username'];
-      
+
       record_session_oauth($session_oauth);
-      
+
       $message = sprintf($user->lang['OAUTH_MSG_LOGGED'], $user->data['username'], $oauth_profile['link'], $oauth_profile['name'], ucfirst($provider));
 
-      meta_refresh(5, append_sid("{$phpbb_root_path}index.$phpEx"));
+      if (isset($_COOKIE['redirect_to']) && !empty($_COOKIE['redirect_to']))  {
+        meta_refresh(2, append_sid($_COOKIE['redirect_to']));
+        setcookie('redirect_to', '', time()-3600, '/');
+      } else {
+        meta_refresh(2, append_sid("{$phpbb_root_path}index.$phpEx"));
+      }
 
+    } else {
+      $message = sprintf($user->lang['OAUTH_MSG_NO_LINK'], $oauth_profile['link'], $oauth_profile['name'], $provider, append_sid($phpbb_root_path . 'oauthorize.php?provider=' . $provider . '&amp;action=register'));
+      login_box(request_var('redirect', $phpbb_root_path . 'oauthorize.php?provider=' . $provider . '&amp;action=authorize'), $message);
     }
-    else 
-    {      
-      $message = sprintf($user->lang['OAUTH_MSG_NO_LINK'], $oauth_profile['link'], $oauth_profile['name'], $provider, append_sid($phpbb_root_path.'oauthorize.php?provider='.$provider.'&amp;action=register'));
 
-      login_box(request_var('redirect', $phpbb_root_path.'oauthorize.php?provider='.$provider.'&amp;action=authorize'), $message);
-
-    }
     trigger_error($message);
 
     break;
 
-    default:
+  default:
 
     $message = $user->lang['OAUTH_UNKOWN_ACTION'];
-    meta_refresh(3, $phpbb_root_path);    
-    trigger_error($message);  
-  }
+    meta_refresh(3, $phpbb_root_path);
+    trigger_error($message);
+}
