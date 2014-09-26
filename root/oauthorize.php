@@ -118,6 +118,7 @@ switch ($action) {
       $session_oauth[$provider]['username'] = $oauth_profile['username'];
 
       if (isset($_COOKIE['remember']) && $_COOKIE['remember']==1) {
+        setcookie('remember', '', time()-3600, '/');
         record_session_oauth_remember($session_oauth);
       } else {
         record_session_oauth($session_oauth);
