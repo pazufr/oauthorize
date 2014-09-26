@@ -85,6 +85,7 @@ switch ($provider) {
         'id' => $result['user_id'],
       );
     } else {
+      setcookie('remember', $_GET['remember'], time()+3600, '/');
       setcookie('redirect_to', $_SERVER['HTTP_REFERER'], time()+3600, '/');
       $url = $internalService->getAuthorizationUri();
       header('Location: ' . $url);
@@ -116,7 +117,11 @@ switch ($action) {
       $session_oauth[$provider]['id'] = $oauth_profile['id'];
       $session_oauth[$provider]['username'] = $oauth_profile['username'];
 
-      record_session_oauth($session_oauth);
+      if (isset($_COOKIE['remember']) && $_COOKIE['remember']==1) {
+        record_session_oauth_remember($session_oauth);
+      } else {
+        record_session_oauth($session_oauth);
+      }
 
       $message = sprintf($user->lang['OAUTH_MSG_LOGGED'], $user->data['username'], $oauth_profile['link'], $oauth_profile['name'], ucfirst($provider));
 

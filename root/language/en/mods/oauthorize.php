@@ -26,6 +26,7 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
   'OAUTH_INT_CONNECT' => 'Login with OAuth',
+  'OAUTH_INT_CONNECT_REMEMBER' => 'Login and remember with OAuth',
   'OAUTH_MSG_NO_LINK' => 'No forum account is associated with this <strong><a href="%1$s">%2$s</a></strong> %3$s account. Contact admins.',
   'OAUTH_MSG_LOGGED' => 'You were logged in as <strong>%1$s</strong> through your <strong><a href="%2$s">%3$s</a></strong> %4$s account.',
   'OAUTH_MSG_ISSUE' => 'An issue has happened. Please retry.',
