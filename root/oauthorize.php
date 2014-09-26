@@ -85,7 +85,7 @@ switch ($provider) {
         'id' => $result['user_id'],
       );
     } else {
-      setcookie('redirect_to', $phpbb_root_path . $_SERVER['REQUEST_URI'], time()+3600, '/');
+      setcookie('redirect_to', $_SERVER['HTTP_REFERER'], time()+3600, '/');
       $url = $internalService->getAuthorizationUri();
       header('Location: ' . $url);
     }
