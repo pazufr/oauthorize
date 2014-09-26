@@ -85,6 +85,7 @@ switch ($provider) {
         'id' => $result['user_id'],
       );
     } else {
+      setcookie('redirect_to', $phpbb_root_path . $_SERVER['REQUEST_URI'], time()+3600, '/');
       $url = $internalService->getAuthorizationUri();
       header('Location: ' . $url);
     }
@@ -124,9 +125,14 @@ switch ($action) {
     } else {
       $message = sprintf($user->lang['OAUTH_MSG_NO_LINK'], $oauth_profile['link'], $oauth_profile['name'], $provider, append_sid($phpbb_root_path . 'oauthorize.php?provider=' . $provider . '&amp;action=register'));
 
-      login_box(request_var('redirect', $phpbb_root_path . 'oauthorize.php?provider=' . $provider . '&amp;action=authorize'), $message);
-
+      if (isset($_COOKIE['redirect_to']) && !empty($_COOKIE['redirect_to']))  {
+        login_box($_COOKIE['redirect_to'],$message);
+        setcookie('redirect_to', '', time()-3600, '/');
+      } else {
+        login_box(request_var('redirect', $phpbb_root_path . 'oauthorize.php?provider=' . $provider . '&amp;action=authorize'), $message);
+      }
     }
+
     trigger_error($message);
 
     break;
