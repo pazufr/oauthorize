@@ -44,7 +44,7 @@ class OauthLogin
       else
 		  {
         $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;action=deauthorize', true, $user->session_id);
-        $u_oauth_internal_connect_remember = $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;action=deauthorize&amp;remember=1', true, $user->session_id);
+        $u_oauth_internal_connect_remember = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;action=deauthorize&amp;remember=1', true, $user->session_id);
         $s_oauth_internal = true;
       }
     }
