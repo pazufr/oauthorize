@@ -46,7 +46,7 @@ function record_session_oauth_remember($session_oauth)
 
   $sql = 'UPDATE ' . SESSIONS_TABLE . "
             SET session_oauth = '" .$db->sql_escape(json_encode($session_oauth)). "',
-            session_autologin = '1'
+            session_autologin = 1
             WHERE session_id = '" . $db->sql_escape($user->session_id) . "'";
   $db->sql_query($sql);
   $db->sql_freeresult($result);
