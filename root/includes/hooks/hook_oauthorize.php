@@ -57,7 +57,7 @@ class OauthLogin
     
     $template->assign_vars(array(
       'U_OAUTH_INTERNAL_CONNECT'	=> $u_oauth_internal_connect,
-      'OAUTH_INTERNAL_CONNECT_REMEMBER' => $u_oauth_internal_connect_remember, //TODO
+      'U_OAUTH_INTERNAL_CONNECT_REMEMBER' => $u_oauth_internal_connect_remember,
       'S_OAUTH_INTERNAL' => $s_oauth_internal,
     ));
   }
