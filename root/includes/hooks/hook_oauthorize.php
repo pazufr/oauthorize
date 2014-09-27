@@ -38,23 +38,26 @@ class OauthLogin
       if (empty($user->profile_fields['pf_internal_id']))
       {
         $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;action=authorize', true, $user->session_id);
+        $u_oauth_internal_connect_remember = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;action=authorize&amp;remember=1', true, $user->session_id);
         $s_oauth_internal = false;
       }
       else
 		  {
         $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;action=deauthorize', true, $user->session_id);
+        $u_oauth_internal_connect_remember = $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;action=deauthorize&amp;remember=1', true, $user->session_id);
         $s_oauth_internal = true;
       }
     }
     else
     {
       $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal');
+      $u_oauth_internal_connect_remember = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;remember=1');
       $s_oauth_internal = false;
     }
     
     $template->assign_vars(array(
       'U_OAUTH_INTERNAL_CONNECT'	=> $u_oauth_internal_connect,
-      'OAUTH_INTERNAL_CONNECT_REMEMBER' => $u_oauth_internal_connect . '&remember=1', //TODO
+      'OAUTH_INTERNAL_CONNECT_REMEMBER' => $u_oauth_internal_connect_remember, //TODO
       'S_OAUTH_INTERNAL' => $s_oauth_internal,
     ));
   }
