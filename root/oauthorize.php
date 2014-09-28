@@ -112,19 +112,21 @@ switch ($action) {
 
     $config['auth_method'] = 'oauth'; // attempt oauth
 
-    $auth->login($oauth_profile['id'], $provider);
+    if (isset($_COOKIE['remember']) && $_COOKIE['remember']=="1") {
+      setcookie('remember', '', time()-3600, '/');
+      $cookie_remember = 1;
+    } else {
+      $cookie_remember = 0;
+    }
+
+    $auth->login($oauth_profile['id'], $provider, $cookie_remember);
 
     if ($user->data['is_registered']) {
       //indicate that user was logged in by OAuth by registering id in session
       $session_oauth[$provider]['id'] = $oauth_profile['id'];
       $session_oauth[$provider]['username'] = $oauth_profile['username'];
 
-      if (isset($_COOKIE['remember']) && $_COOKIE['remember']==1) {
-        setcookie('remember', '', time()-3600, '/');
-        record_session_oauth_remember($session_oauth);
-      } else {
-        record_session_oauth($session_oauth);
-      }
+      record_session_oauth($session_oauth);
 
       $message = sprintf($user->lang['OAUTH_MSG_LOGGED'], $user->data['username'], $oauth_profile['link'], $oauth_profile['name'], ucfirst($provider));
 

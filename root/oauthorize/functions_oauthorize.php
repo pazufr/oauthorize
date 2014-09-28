@@ -38,22 +38,6 @@ function record_session_oauth($session_oauth)
   return true;
 }
 
-// Record session_oauth array in specific session_oauth field with remember
-
-function record_session_oauth_remember($session_oauth)
-{
-  global $db, $user;
-
-  $sql = 'UPDATE ' . SESSIONS_TABLE . "
-            SET session_oauth = '" .$db->sql_escape(json_encode($session_oauth)). "',
-            session_autologin = 1
-            WHERE session_id = '" . $db->sql_escape($user->session_id) . "'";
-  $db->sql_query($sql);
-  $db->sql_freeresult($result);
-
-  return true;
-}
-
 // Record oauth_id in custom field associated to the provider
 // $insert_too set to true when not sure if we have to do an update or an insert
 // $insert_too set to false when it is sure, that record exists
