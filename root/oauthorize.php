@@ -85,6 +85,9 @@ switch ($provider) {
         'id' => $result['user_id'],
       );
     } else {
+      if (isset($_GET['remember'])) {
+        setcookie('remember', $_GET['remember'], time() + 3600, '/');
+      }
       setcookie('redirect_to', $_SERVER['HTTP_REFERER'], time()+3600, '/');
       $url = $internalService->getAuthorizationUri();
       header('Location: ' . $url);
@@ -109,7 +112,14 @@ switch ($action) {
 
     $config['auth_method'] = 'oauth'; // attempt oauth
 
-    $auth->login($oauth_profile['id'], $provider);
+    if (isset($_COOKIE['remember']) && $_COOKIE['remember']=="1") {
+      setcookie('remember', '', time()-3600, '/');
+      $cookie_remember = true;
+    } else {
+      $cookie_remember = false;
+    }
+
+    $auth->login($oauth_profile['id'], $provider, $cookie_remember);
 
     if ($user->data['is_registered']) {
       //indicate that user was logged in by OAuth by registering id in session
