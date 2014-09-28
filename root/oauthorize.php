@@ -114,9 +114,9 @@ switch ($action) {
 
     if (isset($_COOKIE['remember']) && $_COOKIE['remember']=="1") {
       setcookie('remember', '', time()-3600, '/');
-      $cookie_remember = 1;
+      $cookie_remember = true;
     } else {
-      $cookie_remember = 0;
+      $cookie_remember = false;
     }
 
     $auth->login($oauth_profile['id'], $provider, $cookie_remember);
