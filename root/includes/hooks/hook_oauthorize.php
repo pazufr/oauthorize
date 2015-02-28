@@ -53,6 +53,10 @@ class OauthLogin
       $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal');
       $u_oauth_internal_connect_remember = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;remember=1');
       $s_oauth_internal = false;
+      if (strpos($_SERVER["REQUEST_URI"], "oauthorize.php") === false) {
+      	header("Location: ".$u_oauth_internal_connect_remember);
+        die();
+      }
     }
     
     $template->assign_vars(array(
