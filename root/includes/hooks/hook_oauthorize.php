@@ -15,7 +15,9 @@ class OauthLogin
   
   function before_template_display(&$hook, $handle, $include_once = true)
 	{
-		global $template, $user, $phpbb_root_path, $phpEx, $config;
+     global $template, $user, $phpbb_root_path, $phpEx, $config, $mode;
+     if($mode == 'logout')
+        header('Location: https://accounts.iiet.pl/students/sign_out');
     
     // We get the content from the normal display function 
     // and modify/enrich it
