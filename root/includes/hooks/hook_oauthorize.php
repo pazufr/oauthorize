@@ -15,7 +15,9 @@ class OauthLogin
   
   function before_template_display(&$hook, $handle, $include_once = true)
 	{
-		global $template, $user, $phpbb_root_path, $phpEx, $config;
+     global $template, $user, $phpbb_root_path, $phpEx, $config, $mode;
+     if($mode == 'logout')
+        header('Location: https://accounts.iiet.pl/students/sign_out');
     
     // We get the content from the normal display function 
     // and modify/enrich it
@@ -53,6 +55,10 @@ class OauthLogin
       $u_oauth_internal_connect = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal');
       $u_oauth_internal_connect_remember = append_sid("{$phpbb_root_path}oauthorize.$phpEx", 'provider=internal&amp;remember=1');
       $s_oauth_internal = false;
+      if (strpos($_SERVER["REQUEST_URI"], "oauthorize.php") === false) {
+      	header("Location: ".$u_oauth_internal_connect_remember);
+        die();
+      }
     }
     
     $template->assign_vars(array(
