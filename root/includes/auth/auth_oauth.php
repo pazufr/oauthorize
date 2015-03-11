@@ -26,7 +26,7 @@ function login_oauth(&$oauth_id, &$provider)
 {
 	global $db;
 
-  $oauth_column = 'pf_oauth_'.$provider.'_id';
+  $oauth_column = 'pf_'.$provider.'_id';
 
 	if (!$oauth_id)
 	{

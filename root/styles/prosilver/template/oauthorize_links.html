@@ -1,11 +1,3 @@
 <!-- IF not S_IS_BOT and not S_USER_LOGGED_IN -->
-	<li><a class="oauth_button oauth_fb_add" href="{U_OAUTH_FACEBOOK_CONNECT}">{L_OAUTH_FB_CONNECT}</a></li>
-  <li><a class="oauth_button oauth_tw_add" href="{U_OAUTH_TWITTER_CONNECT}">{L_OAUTH_TW_CONNECT}</a></li>
-<!-- ELSE IF S_USER_LOGGED_IN and not S_IS_BOT -->
-	<!-- IF S_OAUTH_FACEBOOK --><li><a class="oauth_button oauth_fb_del" href="{U_OAUTH_FACEBOOK_CONNECT}" title="{L_OAUTH_FB_DEAUTHORIZE}">-</a></li>
-  <!-- ELSE --><li><a class="oauth_button oauth_fb_add" href="{U_OAUTH_FACEBOOK_CONNECT}" title="{L_OAUTH_FB_AUTHORIZE}">+</a></li>
-  <!-- ENDIF -->
-  <!-- IF S_OAUTH_TWITTER --><li><a class="oauth_button oauth_tw_del " href="{U_OAUTH_TWITTER_CONNECT}" title="{L_OAUTH_TW_DEAUTHORIZE}">-</a></li>
-  <!-- ELSE --><li><a class="oauth_button oauth_tw_add" href="{U_OAUTH_TWITTER_CONNECT}" title="{L_OAUTH_TW_AUTHORIZE}">+</a></li>
-  <!-- ENDIF -->
-<!-- ENDIF -->	
+  <li class="icon-logout"><a class="oauth_button oauth_int_add" href="{U_OAUTH_INTERNAL_CONNECT}">{L_OAUTH_INT_CONNECT}</a> | <a href="{U_OAUTH_INTERNAL_CONNECT_REMEMBER}">{L_OAUTH_INT_CONNECT_REMEMBER}</a></li>
+<!-- ENDIF -->
