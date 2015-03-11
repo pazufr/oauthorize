@@ -88,7 +88,9 @@ switch ($provider) {
       if (isset($_GET['remember'])) {
         setcookie('remember', $_GET['remember'], time() + 3600, '/');
       }
-      setcookie('redirect_to', $_SERVER['HTTP_REFERER'], time()+3600, '/');
+      if (isset($_SERVER['HTTP_REFERER'])) {
+        setcookie('redirect_to', $_SERVER['HTTP_REFERER'], time()+3600, '/');
+      }
       $url = $internalService->getAuthorizationUri();
       header('Location: ' . $url);
     }
